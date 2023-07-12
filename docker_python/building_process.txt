@@ -1,0 +1,13 @@
+To understand how this build job works:
+1. While creating codebuild app, we have to provide only one environment veriable that is DOCKER_IMAGE_NAME. This environment variable is for our undrstading to identify our
+build image with same name in ecr repo
+2. This is for tagging the build image and tagging the reop as well. DOCKER_IMAGE_NAME COULD be anything for our understanding.
+3. This environment is also applicable to build_and_push.sh script because we are runnig script on codebuil server as well.
+4. Buildspec.yml have one command printenv, this prints environment variables at buildserver (These are inbuilt environment varivables) eg, 
+ODEBUILD_SOURCE_REPO_URL   //https://github.com/aoc-devops/python_class_app.git
+BRANCH_NAME
+CODEBUILD_SOURCE_VERSION
+CODEBUILD_SRC_DIR   // is root level directory of repo // /codebuild/output/src4124379041/src/github.com/aoc-devops/python_class_app
+$CODEBUILD_SRC_DIR/docker_python/scripts/build_and_push.sh $DOCKER_IMAGE_NAME    // we are finding script in this manner
+5. Buildspec.yml invokes build_and_push.sh script to build and push image to ecr, but to install some depandancies and make customization in base image we need dockerfile
+6. The above mentioned script runs docker build command ot build image from Dockerfile and push that image to ecr repo.
